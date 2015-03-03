@@ -15,6 +15,7 @@
         android:textSize="35pt"
         android:textColor="@color/white1"
         android:textAlignment="center"
+        android:layout_marginTop="76dp"
         />
 
 
@@ -26,7 +27,29 @@
         android:background="@drawable/custom_button"
         android:gravity="center"
         android:layout_gravity="center"
+        android:layout_above="@+id/highScoreID"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="150dp" />
+        android:layout_marginBottom="76dp" />
+
+    <TextView
+        android:id="@+id/highScoreLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/high_score"
+        android:textColor="@color/white1"
+        android:layout_alignParentBottom="true"
+        android:layout_toLeftOf="@+id/myButton"
+        android:layout_toStartOf="@+id/myButton"
+        android:textSize="10pt"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/highScoreID"
+        android:layout_alignParentBottom="true"
+        android:layout_toLeftOf="@+id/myTextView"
+        android:layout_toStartOf="@+id/myTextView"
+        android:textColor="@color/white1"
+        android:textSize="10pt"/>
 
 </RelativeLayout>
