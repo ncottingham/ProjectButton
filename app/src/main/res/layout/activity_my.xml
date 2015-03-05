@@ -9,24 +9,25 @@
 
 
     <TextView
-    android:id="@+id/timerValue"
+    android:id="@+id/scoreValue"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_centerHorizontal="true"
     android:layout_marginBottom="37dp"
-    android:textSize="40sp"
+    android:textSize="15pt"
     android:textColor="#ffffff"
-    android:text="@string/timerVal" />
+    android:text="@string/scoreVal" />
 
 
-    <TextView android:id="@+id/myTextView"
+    <TextView android:id="@+id/myLevelText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:textSize="35pt"
+        android:textSize="25pt"
         android:textColor="@color/white1"
         android:textAlignment="center"
         android:layout_marginTop="76dp"
+        android:text="@string/levelVal" />
         />
 
 
@@ -38,15 +39,15 @@
         android:background="@drawable/custom_button"
         android:gravity="center"
         android:layout_gravity="center"
-        android:layout_above="@+id/highScoreID"
+        android:layout_above="@+id/highLevelID"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="76dp" />
 
     <TextView
-        android:id="@+id/highScoreLabel"
+        android:id="@+id/highLevelLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/high_score"
+        android:text="@string/high_level"
         android:textColor="@color/white1"
         android:layout_alignParentBottom="true"
         android:layout_toStartOf="@+id/myButton"
@@ -55,9 +56,9 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/highScoreID"
+        android:id="@+id/highLevelID"
         android:layout_alignParentBottom="true"
-        android:layout_toRightOf="@+id/highScoreLabel"
+        android:layout_toRightOf="@+id/highLevelLabel"
         android:textColor="@color/white1"
         android:textSize="10pt"/>
 
