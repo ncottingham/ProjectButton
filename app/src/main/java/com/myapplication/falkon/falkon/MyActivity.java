@@ -21,18 +21,17 @@ import static com.example.falkon.projectfalkon.R.layout.activity_my;
 public class MyActivity extends Activity implements OnClickListener {
 
     Button myButton;
-    TextView levelText;
-    TextView highLevelText;
-    TextView scoreValue;
-    int counter = 1;
-    int highLevel;
+    TextView scoreText;
+    TextView highScoreText;
+    TextView timerValue;
+    int counter = 0;
+    int highScore;
 
+    long startTime = 0L;
     Handler customHandler = new Handler();
     long timeInMilliseconds = 0L;
     long timeSwapBuff = 0L;
     long updatedTime = 0L;
-    long previousTimeinMilliseconds = 0L;
-    long currentScore = 1L;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,22 +39,21 @@ public class MyActivity extends Activity implements OnClickListener {
         setContentView(activity_my);
 
         myButton = (Button)findViewById(R.id.myButton);
-        levelText = (TextView)findViewById(R.id.myLevelText);
-        highLevelText = (TextView)findViewById(R.id.highLevelID);
-        scoreValue = (TextView) findViewById(R.id.scoreValue);
+        scoreText = (TextView)findViewById(R.id.myTextView);
+        highScoreText = (TextView)findViewById(R.id.highScoreID);
+        timerValue = (TextView) findViewById(R.id.timerValue);
 
         //---set on click listeners on the buttons-----
         myButton.setOnClickListener(this);
 
         //getting preferences
         SharedPreferences prefs = this.getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
-        highLevel = prefs.getInt("highScore", 0); //0 is the default value
+        highScore = prefs.getInt("highScore", 0); //0 is the default value
 
 
-        levelText.setText(Integer.toString(counter));
-        highLevelText.setText(Integer.toString(highLevel));
-        previousTimeinMilliseconds = SystemClock.uptimeMillis();
-        customHandler.postDelayed(updateTimerThread, 0);
+        scoreText.setText(Integer.toString(counter));
+        highScoreText.setText(Integer.toString(highScore));
+
 
     }
 
@@ -67,20 +65,22 @@ public class MyActivity extends Activity implements OnClickListener {
         //setting preferences
         SharedPreferences prefs = this.getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
-        editor.putInt("highScore", highLevel);
+        editor.putInt("highScore", highScore);
         editor.commit();
 
     }
 
     @Override
     public void onClick(View v) {
+        startTime = SystemClock.uptimeMillis();
+        customHandler.postDelayed(updateTimerThread, 0);
 
         if (v == myButton){
             counter++;
-            levelText.setText("Level: " + Integer.toString(counter));
-            if (counter > highLevel) {
-                highLevel = counter;
-                highLevelText.setText(Integer.toString(highLevel));
+            scoreText.setText(Integer.toString(counter));
+            if (counter > highScore) {
+                highScore = counter;
+                highScoreText.setText(Integer.toString(highScore));
             }
         }
 
@@ -89,28 +89,26 @@ public class MyActivity extends Activity implements OnClickListener {
     private Runnable updateTimerThread = new Runnable() {
 
         public void run() {
+            myButton.setEnabled(false);
+            //timeInMilliseconds = SystemClock.uptimeMillis() - startTime ;
+            timeInMilliseconds = (counter * 1000) + startTime -  SystemClock.uptimeMillis();
 
+            updatedTime = timeSwapBuff + timeInMilliseconds;
 
-            timeInMilliseconds = SystemClock.uptimeMillis() - previousTimeinMilliseconds;
-            previousTimeinMilliseconds = SystemClock.uptimeMillis();
-            updatedTime = ((timeSwapBuff + timeInMilliseconds) / (1 + (counter / 100))) * 100;
-
-            //long secs = (updatedTime / (1 + (counter/10))) * 100;
-            currentScore = currentScore + (updatedTime)/ 1000;
-
-
-            scoreValue.setText("Score: " + currentScore);
-
-            customHandler.postDelayed(this, 10);
-            /*if (timeInMilliseconds <= 0) {
+            int secs = (int) (updatedTime / 1000) + 1;
+            int mins = secs / 60;
+            secs = secs % 60;
+            timerValue.setText("" + mins + ":"
+                            + String.format("%02d", secs));
+            if (timeInMilliseconds <= 0) {
                 customHandler.removeCallbacks(updateTimerThread);
-                //myButton.setEnabled(true);
-                scoreValue.setText("" + 0 + ":"
+                myButton.setEnabled(true);
+                timerValue.setText("" + 0 + ":"
                         + String.format("%02d", 0));
             }
             else{
                 customHandler.postDelayed(this, 0);
-            }*/
+            }
         }
     };
 
